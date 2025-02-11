@@ -46,6 +46,7 @@ ExportedObj/
 # Ignore large asset file
 Assets/CharacterAssets/ZZZ_GeneratedAssets/Shinano_kisekae(Clone).asset
 
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
