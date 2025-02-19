@@ -10,7 +10,9 @@ public class ButtonGenerator : MonoBehaviour
     public GameObject stayButton;   // 가구 stay 버튼
 
     public RectTransform parentPanel; // 버튼을 생성할 부모 패널
+    [HideInInspector]
     public ObjectFactory createObject; // ObjectFactory 참조
+    [HideInInspector]
     public UIButton uiButton; // UI 메뉴 토글 버튼
 
     public List<Sprite> furnitureSprites; // 가구의 스프라이트 리스트
