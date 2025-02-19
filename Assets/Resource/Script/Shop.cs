@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
-    public List<GameObject> furnityreList = new List<GameObject>();
+    public List<GameObject> furnitureList = new List<GameObject>();
 
 
     // Start is called before the first frame update
