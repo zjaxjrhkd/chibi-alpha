@@ -11,12 +11,13 @@ public class ButtonGenerator : MonoBehaviour
     public GameObject rotateButton;
     public GameObject stayButton;
     public GameObject map;
-    public NavMeshData navMeshData;
-    public Vector3 navMeshSize = new Vector3(100f, 10f, 100f);
+
 
     public RectTransform parentPanel;
-    [HideInInspector] public ObjectFactory createObject;
-    [HideInInspector] public UIButton uiButton;
+    [HideInInspector] 
+    public ObjectFactory createObject;
+    [HideInInspector] 
+    public UIButton uiButton;
 
     public List<Sprite> furnitureSprites;
     public List<GameObject> furnitureList;
@@ -30,14 +31,6 @@ public class ButtonGenerator : MonoBehaviour
     {
         createObject = GetComponent<ObjectFactory>();
         uiButton = GetComponent<UIButton>();
-
-        if (navMeshData == null)
-        {
-            Debug.LogError("NavMeshData가 인스펙터에서 할당되지 않았습니다!");
-            return;
-        }
-
-        navMeshDataInstance = NavMesh.AddNavMeshData(navMeshData);
 
         if (moveButton != null)
             moveButton.GetComponent<Button>().onClick.AddListener(() => MoveSelectedFurniture());
@@ -125,44 +118,7 @@ public class ButtonGenerator : MonoBehaviour
             uiButton.ToggleFurnitureMenu();
             Debug.Log("선택된 가구 위치 확정");
 
-            StartCoroutine(UpdateNavMeshAsync());
         }
     }
 
-    IEnumerator UpdateNavMeshAsync()
-    {
-        if (navMeshData == null)
-        {
-            Debug.LogError("NavMeshData가 없습니다!");
-            yield break;
-        }
-
-        sources.Clear();
-        NavMeshBuilder.CollectSources(map.transform, LayerMask.GetMask("Default"), NavMeshCollectGeometry.RenderMeshes, 0, new List<NavMeshBuildMarkup>(), sources);
-
-        // 읽을 수 없는 메시 제거
-        sources.RemoveAll(source =>
-        {
-            if (source.sourceObject is Mesh mesh && !mesh.isReadable)
-            {
-                Debug.LogWarning($"[{mesh.name}] 메시가 읽기 불가능하여 NavMesh에서 제외됩니다.");
-                return true;
-            }
-            return false;
-        });
-
-        Bounds bounds = new Bounds(map.transform.position, navMeshSize);
-        operation = NavMeshBuilder.UpdateNavMeshDataAsync(navMeshData, NavMesh.GetSettingsByID(0), sources, bounds);
-
-        yield return operation;
-
-        Debug.Log("NavMesh 업데이트 완료!");
-    }
-
-
-    private void OnDestroy()
-    {
-        if (navMeshDataInstance.valid)
-            navMeshDataInstance.Remove();
-    }
 }
