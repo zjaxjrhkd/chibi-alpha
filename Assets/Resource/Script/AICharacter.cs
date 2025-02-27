@@ -79,7 +79,7 @@ public class AICharacter : MonoBehaviour
         GameObject target = FindClosestWithTag(tag);
         if (target)
         {
-            Debug.Log("Target found: " + target.name);
+            Debug.Log("다음목표 : " + target.name);
             MoveUsingNavMesh(target.transform.position);
         }
 
@@ -115,6 +115,7 @@ public class AICharacter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("닻았어");
         if ((currentState == State.Thirsty && other.CompareTag("Water")) ||
             (currentState == State.Hungry && other.CompareTag("Food")) ||
             (currentState == State.Bored && other.CompareTag("Entertainment")) ||
